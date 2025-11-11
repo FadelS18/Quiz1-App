@@ -27,7 +27,7 @@ class _SelectcardState extends State<Selectcard>{
 
   }
   void reset(){
-    
+    return select = '❔';
       
   }
 
