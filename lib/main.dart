@@ -1,26 +1,19 @@
 import 'package:flutter/material.dart';
-import ' package:'
+import 'cards_page.dart';
+
 void main() {
-  runApp(const MainApp());
+  runApp(const CardsApp());
 }
 
-class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+class CardsApp extends StatelessWidget {
+  const CardsApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: LinearGradient(
-            colors: Colors.red[300],
-
-            ), 
-          
-        ),
-        begin: Alignment.bottomCenter,
-        end: Alignment.bottomCenter,
-      ),
+      debugShowCheckedModeBanner: false,
+      home: CardsHomePage(),
     );
   }
 }
+
