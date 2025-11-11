@@ -1,98 +1,105 @@
-
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 
-class Selectcard extends StatefulWidget{(
-
-  const SelectCard ({super.key});
-
- @override
-  State<Selectcard> CreateState ()=> _SelectcardState;
-
-)
-
-
-class _SelectcardState extends State<Selectcard>{
-  var select =[ '♣', '🖤' , '🃏' ,'♣', '♦'];
-  String user_select;
-  String result;
-  String card1 = '❔';
-  String card2 = '❔';
- String card3 = '❔';
-  int temp= Random.nextInt(6);
-  void Selectcard (user_select){
-    setState((){
-   if (user_select == '🃏')=>result= '🃏 the joker is in there';
-
-  }
-  void reset(){
-    return select = '❔';
-      
-  }
-
+class CardsHomePage extends StatefulWidget {
+  const CardsHomePage({super.key});
 
   @override
-  StatefulElement createElement() {
-    Widget build(BuildContext context)
-      return Scaffold(
-        backgroundColor: Colors.white,
-        body: center(
-          child:Column(
-            mainAxisAlignment: MainAxisAlignment.min,
-            children: [
-              TextButton(
-                onPressed: ()
-                Selectcard(user_select),
+  State<CardsHomePage> createState() => _CardsHomePageState();
+}
 
-              ),
-              TextButton(
-                TextButton(
-                onPressed: ()
-                reset(),
-              )
+class _CardsHomePageState extends State<CardsHomePage> {
+  final List<String> emojis = ["♠️", "♥️", "♦️", "♣️", "🃏"];
+  final Random random = Random();
 
+  List<String> selectedCards = ["?", "?", "?"];
+  bool jokerFound = false;
 
-           Row(
-              children: [
-                Text(
-                  "card: $select[temp]"
-                  
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
-                ),
-                SizedBox(width: 30),
-                Text(
-                  "card: $select [temp]"
-                
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
-                ),
-                SizedBox(width: 30),
-                Text(
-                  "card: $select [temp]"
-                
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
-                ),
-                SizedBox(width: 30),
-              ],
-            ),
+  void selectCards() {
+    List<String> newCards = List.generate(
+      3,
+      (_) => emojis[random.nextInt(emojis.length)],
+    );
 
-
-
-
-            ],
-
-
-          
-
-          )
-        )
-
-
-      )
-
-
+    setState(() {
+      selectedCards = newCards;
+      jokerFound = newCards.contains("🃏");
+    });
   }
 
-}
-}
+  void resetCards() {
+    setState(() {
+      selectedCards = ["?", "?", "?"];
+      jokerFound = false;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: const Color(0xFFB71C1C),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            /// Cards row
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: selectedCards
+                  .map(
+                    (e) => Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: Text(
+                        e,
+                        style: const TextStyle(
+                          fontSize: 60,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  )
+                  .toList(),
+            ),
+
+            const SizedBox(height: 20),
+
+            /// Joker message
+            if (jokerFound)
+              const Text(
+                "🃏 The Joker is in there!",
+                style: TextStyle(
+                  fontSize: 22,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+
+            const SizedBox(height: 40),
+
+            /// Select cards button
+            ElevatedButton(
+              onPressed: selectCards,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.yellow,
+                foregroundColor: Colors.black,
+              ),
+              child: const Text("Select Cards"),
+            ),
+
+            const SizedBox(height: 12),
+
+            /// Reset button
+            ElevatedButton(
+              onPressed: resetCards,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.blue,
+                foregroundColor: Colors.white,
+              ),
+              child: const Text("Reset"),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 }
